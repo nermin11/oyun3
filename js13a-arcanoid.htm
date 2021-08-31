@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            #game { position: relative; margin: 50px auto;
+                width: 800px; height: 600px; box-shadow: 0 0 10px #666; }
+            #game>div { position: absolute; }
+            #ball { width: 30px; height: 30px; border-radius: 50%; background: red;}
+            #bar { width: 150px; height: 10px; background: blue; bottom: 0; }
+            #counter{ width: 50px; height: 30px; border-radius: 15px 5px; background: #9e6ac0; right: 0; color: rgb(13, 233, 203); text-align: center; margin: 15px;}
+        </style>
+    </head>
+    <body>
+        <div id="game">
+            <div id="ball"></div>
+            <div id="bar"></div>
+            <div id="counter"></div>
+
+        </div>
+
+
+        <script>
+            const game = document.getElementById("game");
+            const ball = document.getElementById("ball");
+            const bar = document.getElementById("bar");
+            const counter = document.getElementById("counter");
+            let barX = 0;
+            let ballX = 0.01;
+            let ballY = 0.01;
+            let dx = 5;
+            let dy = 5;
+            let saygac = 0;
+
+            let start = setInterval(ballMove, 40);
+            document.onkeydown = barMove;
+
+            function ballMove() {
+                if(ballX <= 0 || ballX >= 770) dx *= -1;
+                if(ballY <= 0 || 
+                   ballY > 560 && ballX > barX - 15 && ballX < barX + 135) dy *= -1;
+                if( ballY > 560 && ballX > barX - 15 && ballX < barX + 135) {
+                saygac+= 10;
+                counter.innerHTML= saygac;
+                if(saygac % 10 == 0) { dx += 1.05 ; dy += 1.05} ;
+            }
+
+                if(ballY >= 570) gameOver();
+                ballX += dx;
+                ballY += dy;
+                ball.style.left = ballX + "px";
+                ball.style.top = ballY + "px";
+            }
+            function barMove(e) {
+                if(e.keyCode == 37 && barX > 0)  barX -= 10; 
+                if(e.keyCode == 39 && barX < 650) barX += 10; 
+                bar.style.left = barX + "px";
+
+            }
+
+            function gameOver() {
+                clearInterval(start);
+                alert("UDUZDUN");
+            }
+        </script>
+    </body>
+</html>
